@@ -120,8 +120,6 @@ app.get("/:width([0-9]+)x:height([0-9]+)/:category?", async (req, res) => {
     ctx.strokeText(text, width / 2, height / 2);
     ctx.fillText(text, width / 2, height / 2);
 
-
-
     const buffer = canvas.toBuffer('image/png')
     res.setHeader('Content-Type', 'image/png');
     res.send(buffer)
