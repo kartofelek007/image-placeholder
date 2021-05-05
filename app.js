@@ -81,6 +81,19 @@ app.get("/:width([0-9]+)x:height([0-9]+)/:category?", async (req, res) => {
 
                 ctx.drawImage(image, x, y, image.width * scale, image.height * scale);
             }
+
+            //grayscale
+            if (req.query.gray) {
+                let imgData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
+                let pixels = imgData.data;
+                for (let i = 0; i < pixels.length; i += 4) {
+                    let lightness = parseInt((pixels[i] + pixels[i + 1] + pixels[i + 2]) / 3);
+                    pixels[i] = lightness;
+                    pixels[i + 1] = lightness;
+                    pixels[i + 2] = lightness;
+                }
+                ctx.putImageData(imgData, 0, 0);
+            }
         }
     }
 
@@ -107,18 +120,7 @@ app.get("/:width([0-9]+)x:height([0-9]+)/:category?", async (req, res) => {
     ctx.strokeText(text, width / 2, height / 2);
     ctx.fillText(text, width / 2, height / 2);
 
-    //grayscale
-    if (req.query.gray) {
-        let imgData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
-        let pixels = imgData.data;
-        for (let i = 0; i < pixels.length; i += 4) {
-            let lightness = parseInt((pixels[i] + pixels[i + 1] + pixels[i + 2]) / 3);
-            pixels[i] = lightness;
-            pixels[i + 1] = lightness;
-            pixels[i + 2] = lightness;
-        }
-        ctx.putImageData(imgData, 0, 0);
-    }
+
 
     const buffer = canvas.toBuffer('image/png')
     res.setHeader('Content-Type', 'image/png');
