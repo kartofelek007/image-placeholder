@@ -1,5 +1,7 @@
 # Generator grafik
 
+Adres strony: http://pokaimg.me/
+
 ### Parametry
 * `http://pokaimg.me/200x400` - generuje zaślepkę o danych wymiarach
 * `http://pokaimg.me/200x400?text=example` - zmiana tekstu na "example"

@@ -4,32 +4,30 @@ const { createCanvas, loadImage } = require('canvas');
 const htmlColors = require("./html-colors");
 const fs = require("fs");
 
-function checkColor(text) {
-    let valid = false;
-
-    if (/^[absdef0-9]{3}$/i.test(text)) {
-        valid = true;
+function checkColor(text, defaultValue) {
+    if (/^[abcdef0-9]{6}$/i.test(text)) {
+        return '#' + text;
     }
-    if (/^[absdef0-9]{3}$/i.test(text)) {
-        valid = true;
+    if (/^[abcdef0-9]{3}$/i.test(text)) {
+        return '#' + text;
     }
     if (/^.+$/.test(text) && htmlColors.includes(text)) {
-        valid = true;
+        return text;
     }
 
-    return valid;
+    return defaultValue;
 }
 
 function calculateFontSize(fontSize, text, ctx) {
     ctx.save();
     ctx.fontSize = fontSize;
     let w = ctx.canvas.width;
-    const width = w;
+    const width = w >= 100 ? w - 50 : w - 20;
     do {
         ctx.font = `bold ${fontSize}px Arial, sans-serif`;
         w = ctx.measureText(text).width;
         fontSize--;
-    } while (w > width - 10)
+    } while (w > width)
     return w;
 }
 
@@ -38,37 +36,56 @@ app.get("/", async (req, res) => {
 });
 
 app.get("/:width([0-9]+)x:height([0-9]+)/:category?", async (req, res) => {
+
     let {category, width, height} = req.params;
     width = +width;
     height = +height;
 
+    let text = `${width}x${height}`;
+    if (req.query.text !== undefined) {
+        text = req.query.text;
+    }
+
+    let bg = "#ddd";
+    if (req.query.bg !== undefined) {
+        bg = checkColor(req.query.bg, bg);
+
+    }
+
+    let color = "#fff";
+    if (req.query.color !== undefined) {
+        color = checkColor(req.query.color, color);
+    }
+
     const canvas = createCanvas(width, height);
     const ctx = canvas.getContext("2d");
 
-    if (!fs.existsSync(`./images/${category}`)) {
-        category = undefined
-    }
+    if (category !== "user") {
+        if (!fs.existsSync(`./images/${category}`)) {
+            category = undefined
+        }
 
-    if (category !== undefined) {
-        const images = await fs.promises.readdir(`./images/${category}`);
+        if (category !== undefined) {
+            const images = await fs.promises.readdir(`./images/${category}`);
 
-        if (!images.length) {
-            category = undefined;
-        } else {
-            const randIndex = Math.floor(Math.random() * images.length);
-            const image = await loadImage(`./images/${category}/${images[randIndex]}`);
+            if (!images.length) {
+                category = undefined;
+            } else {
+                const randIndex = Math.floor(Math.random() * images.length);
+                const image = await loadImage(`./images/${category}/${images[randIndex]}`);
 
-            //fill image to canvas
-            let scale = Math.max(canvas.width / image.width, canvas.height / image.height);
-            let x = (canvas.width / 2) - (image.width / 2) * scale;
-            let y = (canvas.height / 2) - (image.height / 2) * scale;
+                //fill image to canvas
+                let scale = Math.max(canvas.width / image.width, canvas.height / image.height);
+                let x = (canvas.width / 2) - (image.width / 2) * scale;
+                let y = (canvas.height / 2) - (image.height / 2) * scale;
 
-            ctx.drawImage(image, x, y, image.width * scale, image.height * scale);
+                ctx.drawImage(image, x, y, image.width * scale, image.height * scale);
+            }
         }
     }
 
     if (category === undefined) {
-        ctx.fillStyle = "#ddd";
+        ctx.fillStyle = bg;
         ctx.fillRect(0, 0, width, height);
         ctx.strokeStyle = "rgba(0,0,0,0.1)";
         ctx.lineWidth = 1;
@@ -82,15 +99,11 @@ app.get("/:width([0-9]+)x:height([0-9]+)/:category?", async (req, res) => {
 
     ctx.textBaseline = "middle";
     ctx.textAlign = "center";
-    ctx.fillStyle = "#fff";
+    ctx.fillStyle = color;
 
-    let text = `${width}x${height}`;
-    if (req.query.text !== undefined) {
-        text = req.query.text;
-    }
-
-    ctx.fontSize = calculateFontSize(50, text, ctx);
+    ctx.fontSize = calculateFontSize(30, text, ctx);
     ctx.lineWidth = 2;
+    ctx.strokeStyle = "rgba(0,0,0,0.3)";
     ctx.strokeText(text, width / 2, height / 2);
     ctx.fillText(text, width / 2, height / 2);
 

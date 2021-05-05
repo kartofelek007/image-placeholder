@@ -40,7 +40,10 @@
             margin: 0;
         }
         ul li {
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
         }
         h2, h3 {
             font-size: 30px;
@@ -54,6 +57,7 @@
             border-radius: 3px;
             display: inline-block;
             color: #000;
+            margin-bottom: 5px;
         }
         pre {
             color: #000;
@@ -98,7 +102,7 @@
     </style>
 </head>
 <body>
-    <h1>Generator grafik</h1>
+    <h1>Kolejny image placeholder</h1>
 
     <div class="grid-top">
         <div>
@@ -117,28 +121,52 @@
 
     <h3>Parametry</h3>
     <ul>
-        <li><code>http://pokaimg.me/200x400</code> - generuje zaślepkę o danych wymiarach</li>
-        <li><code>http://pokaimg.me/200x400?text=example</code> - zmiana tekstu na "example"</li>
-        <li><code>http://pokaimg.me/200x400?text=</code> - zmiana tekstu na pusty</li>
-        <li><code>http://pokaimg.me/200x400?gray=1</code> - zmienia zdjęcie na czarnobiałe</li>
-        <li><code>http://pokaimg.me/200x400/blurry</code> - generuje grafikę z danej kategorii. Kategorie to <strong>cat</strong>, <strong>dog</strong>, <strong>abstract</strong>, <strong>malpa</strong>, <strong>ziobro</strong>, <strong>obajtek</strong></li>
-        <li><code>http://pokaimg.me/200x400/blurry?text=test</code> - generuje grafikę z danej kategorii wraz z tekstem</li>
+        <li><code>http://pokaimg.me/200x400</code>
+            <span>generuje zaślepkę o danych wymiarach</span></li>
+        <li><code>http://pokaimg.me/200x400?bg=red</code>
+            <span>generuje zaślepkę z kolorem tła.  Kolor może być podany jako nazwa koloru, lub w postaci heksadecymalnej - 3 lub 6 znakowej (bez znaku #)</span></li>
+        <li><code>http://pokaimg.me/200x400?color=red</code>
+            <span>generuje zaślepkę z kolorem tekstu. Kolor może być podany jako nazwa koloru, lub w postaci heksadecymalnej - 3 lub 6 znakowej (bez znaku #)</span></li>
+        <li><code>http://pokaimg.me/200x400?text=example</code>
+            <span>zmiana tekstu na "example"</span></li>
+        <li><code>http://pokaimg.me/200x400?text=</code>
+            <span>zmiana tekstu na pusty</span></li>
+        <li><code>http://pokaimg.me/200x400?gray=1</code>
+            <span>zmienia zdjęcie na czarnobiałe</span></li>
+        <li><code>http://pokaimg.me/200x400/blurry</code>
+            <span>generuje grafikę z danej kategorii.</li>
+        <li><code>http://pokaimg.me/200x400/blurry?text=test</code>
+            <span>generuje grafikę z danej kategorii wraz z tekstem</span></li>
     </ul>
+
+    <h3>Lista kategorii</h3>
+    <p>
+        <strong>abstract</strong><br>
+        <strong>blurry</strong><br>
+        <strong>cars</strong><br>
+        <strong>cat</strong><br>
+        <strong>dog</strong><br>
+        <strong>food</strong><br>
+        <strong>landscape</strong><br>
+        <strong>malpa</strong><br>
+        <strong>obajtek</strong><br>
+        <strong>ziobro</strong><br>
+    </p>
 
     <h3>Przykłady użycia</h3>
     <pre>http://pokaimg.me/600x300/
 http://pokaimg.me/600x300/blurry?text=test
-http://pokaimg.me/600x300/cat?gray=1
+http://pokaimg.me/600x300/cat?gray=1&color=gold
 http://pokaimg.me/600x300/abstract?text=
-http://pokaimg.me/600x300/dog/?text=mały piesek
+http://pokaimg.me/600x300/dog/?text=mały piesek&color=F68657
 http://pokaimg.me/600x300/food</pre>
 
     <div class="grid-bottom">
         <img alt="" src="http://pokaimg.me/600x300/">
         <img alt="" src="http://pokaimg.me/600x300/blurry?text=test">
-        <img alt="" src="http://pokaimg.me/600x300/cat?gray=1">
+        <img alt="" src="http://pokaimg.me/600x300/cat?gray=1&color=gold">
         <img alt="" src="http://pokaimg.me/600x300/abstract?text=">
-        <img alt="" src="http://pokaimg.me/600x300/dog/?text=mały piesek">
+        <img alt="" src="http://pokaimg.me/600x300/dog/?text=mały piesek&color=F68657">
         <img alt="" src="http://pokaimg.me/600x300/food">
     </div>
 

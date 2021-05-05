@@ -123,6 +123,7 @@ module.exports = [
     "pink",
     "plum",
     "powderblue",
+    "rebeccapurple",
     "rosybrown",
     "royalblue",
     "saddlebrown",
@@ -146,5 +147,4 @@ module.exports = [
     "wheat",
     "whitesmoke",
     "yellowgreen",
-    "rebeccapurple",
 ]
