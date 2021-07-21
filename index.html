@@ -125,7 +125,7 @@
             <span>generuje zaślepkę o danych wymiarach</span></li>
         <li><code>http://pokaimg.me/200x400?bg=red</code>
             <span>generuje zaślepkę z kolorem tła.  Kolor może być podany jako nazwa koloru, lub w postaci heksadecymalnej - 3 lub 6 znakowej (bez znaku #)</span></li>
-        <li><code>http://pokaimg.me/200x400?color=red</code>
+        <li><code>http://pokaimg.me/200x400?c=red</code>
             <span>generuje zaślepkę z kolorem tekstu. Kolor może być podany jako nazwa koloru, lub w postaci heksadecymalnej - 3 lub 6 znakowej (bez znaku #)</span></li>
         <li><code>http://pokaimg.me/200x400?text=example</code>
             <span>zmiana tekstu na "example"</span></li>
@@ -137,6 +137,8 @@
             <span>generuje grafikę z danej kategorii.</li>
         <li><code>http://pokaimg.me/200x400/blurry?text=test</code>
             <span>generuje grafikę z danej kategorii wraz z tekstem</span></li>
+        <li><code>http://pokaimg.me/200x400?cross=1</code>
+                <span>czy generować skrzyżowane linie na grafice</span></li>
     </ul>
 
     <h3>Lista kategorii</h3>
@@ -149,6 +151,7 @@
         <strong>food</strong><br>
         <strong>landscape</strong><br>
         <strong>malpa</strong><br>
+        <strong>luxury</strong><br>
         <strong>obajtek</strong><br>
         <strong>ziobro</strong><br>
     </p>
@@ -156,10 +159,10 @@
     <h3>Przykłady użycia</h3>
     <pre>http://pokaimg.me/600x300/
 http://pokaimg.me/600x300/blurry?text=test
-http://pokaimg.me/600x300/cat?gray=1&color=gold
+http://pokaimg.me/600x300/cat?gray=1&c=gold
 http://pokaimg.me/600x300/abstract?text=
-http://pokaimg.me/600x300/dog/?text=mały piesek&color=F68657
-http://pokaimg.me/600x300/?bg=gold&color=black</pre>
+http://pokaimg.me/600x300/dog/?text=mały piesek&c=F68657
+http://pokaimg.me/600x300/?bg=gold&c=black</pre>
 
     <div class="grid-bottom">
         <img alt="" src="http://pokaimg.me/600x300/">
