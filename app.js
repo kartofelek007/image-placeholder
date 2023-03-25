@@ -124,16 +124,17 @@ app.get("/:width([0-9]+)x:height([0-9]+)/:category?", async (req, res) => {
     if (category === undefined) {
         ctx.fillStyle = bg;
         ctx.fillRect(0, 0, width, height);
-        if (imageCross) {
-            ctx.strokeStyle = darkBg ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.1)";
-            ctx.lineWidth = 1;
-            ctx.moveTo(0, 0);
-            ctx.lineTo(width, height);
-            ctx.stroke();
-            ctx.moveTo(width, 0);
-            ctx.lineTo(0, height);
-            ctx.stroke();
-        }
+    }
+
+    if (imageCross) {
+        ctx.strokeStyle = "rgba(0,0,0,0.1)";
+        ctx.lineWidth = 1;
+        ctx.moveTo(0, 0);
+        ctx.lineTo(width, height);
+        ctx.stroke();
+        ctx.moveTo(width, 0);
+        ctx.lineTo(0, height);
+        ctx.stroke();
     }
 
     ctx.textBaseline = "middle";
