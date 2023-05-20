@@ -90,8 +90,13 @@ app.get("/:width([0-9]+)x:height([0-9]+)/:category?", async (req, res) => {
             if (!images.length) {
                 category = undefined;
             } else {
-                const randIndex = Math.floor(Math.random() * images.length);
-                const image = await loadImage(`./images/${category}/${images[randIndex]}`);
+                let index = Math.floor(Math.random() * images.length);
+
+                if (req.query.id !== undefined) {
+                    index = +req.query.id % images.length;
+                }
+
+                const image = await loadImage(`./images/${category}/${images[index]}`);
 
                 //fill image to canvas
                 let scale = Math.max(canvas.width / image.width, canvas.height / image.height);

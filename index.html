@@ -2,10 +2,9 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Generator grafik</title>
+    <title>PokaImg.me</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -18,7 +17,7 @@
         }
         html {
             height: 100vh;
-            background: #F0F0F2;
+            background: #f8f8f8;
         }
         body {
             background: #fff;
@@ -29,10 +28,21 @@
             margin: 0 auto;
             color: #777;
         }
-        h1 {
-            color: #f1404b;
-            font-size: 50px;
+        .title {
+            background: linear-gradient(-45deg,#ffa63d,#ff3d77,#b933f9,#5f19dd);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            font-weight: 900;
+            font-size: 60px;
             margin-top: 0;
+            margin-bottom: 0;
+        }
+        .subtitle {
+            font-size: 20px;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
         }
         ul {
             list-style: none;
@@ -47,7 +57,7 @@
         }
         h2, h3 {
             font-size: 30px;
-            color: #f1404b;
+            color: #000;
         }
         code {
             font-size: 1.2rem;
@@ -102,7 +112,8 @@
     </style>
 </head>
 <body>
-    <h1>Another image placeholder generator</h1>
+    <h1 class="title">PokaImg.me</h1>
+    <p class="subtitle">Another image placeholder generator 😏</p>
 
     <div class="grid-top">
         <div>
@@ -121,42 +132,63 @@
 
     <h3>Parameters:</h3>
     <ul>
-        <li><code>http://pokaimg.me/200x400</code>
+        <li><code>http://pokaimg.me/<b>200x400</b></code>
             <span>set specific size</span></li>
-        <li><code>http://pokaimg.me/200x400?bg=red</code>
-            <span>Background color. Color can be given as a color name, or in hexadecimal form - 3 or 6 characters (bez znaku #)</span></li>
-        <li><code>http://pokaimg.me/200x400?c=red</code>
-            <span>Text color. Color can be given as a color name, or in hexadecimal form - 3 or 6 characters (bez znaku #)</span></li>
-        <li><code>http://pokaimg.me/200x400?text=Lorem</code>
+        <li>
+            <code>http://pokaimg.me/200x400?<b>bg=red</b></code>
+            <code>http://pokaimg.me/200x400?<b>bg=ff0000</b></code>
+            <code>http://pokaimg.me/200x400?<b>bg=f00</b></code>
+            <span>set background color. Color can be given as a html color name, or in hexadecimal form - 3 or 6 characters (without #)</span></li>
+        <li>
+            <code>http://pokaimg.me/200x400?<b>c=red</b></code>
+            <code>http://pokaimg.me/200x400?<b>c=ff0000</b></code>
+            <code>http://pokaimg.me/200x400?<b>c=f00</b></code>
+            <span>Text color. Color can be given as a color name, or in hexadecimal form - 3 or 6 characters (without #)</span></li>
+        <li>
+            <code>http://pokaimg.me/200x400?<b>text=Lorem</b></code>
             <span>set text to "Lorem"</span></li>
-        <li><code>http://pokaimg.me/200x400?text=</code>
-            <span>set text to empty</span></li>
-        <li><code>http://pokaimg.me/200x400?gray=1</code>
+        <li>
+            <code>http://pokaimg.me/200x400?<b>text=</b></code>
+            <span>set text to empty (without dimension on image)</span></li>
+        <li>
+            <code>http://pokaimg.me/200x400?<b>gray=1</b>&text=lorem</code>
             <span>set grayscale mode</span></li>
-        <li><code>http://pokaimg.me/200x400/luxury</code>
-            <span>generate image from specyfic category</li>
-        <li><code>http://pokaimg.me/200x400/blurry?text=test</code>            
-        <li><code>http://pokaimg.me/200x400?cross=1</code>
+        <li>
+            <code>http://pokaimg.me/200x400/<b>blur</b></code>
+            <code>http://pokaimg.me/200x400/<b>luxury</b>?text=lorem&gray=1</code>
+            <span>generate image from specyfic category</span></li>
+        <li>
+            <code>http://pokaimg.me/200x400?<b>cross=1</b></code>
             <span>generate cross lines on photo</span></li>
+        <li>
+            <code>http://pokaimg.me/200x400?<b>id=3</b></code>
+            <span>show specyfic image</span>
+        </li>
     </ul>
+
+    <p>You can mix all parameters (look below for examples).</p>
 
     <h3>Category list:</h3>
     <p>
         <strong>abstract</strong><br>
+        <strong>bikini</strong><br>
         <strong>blurry</strong><br>
         <strong>cars</strong><br>
         <strong>cat</strong><br>
         <strong>dog</strong><br>
         <strong>food</strong><br>
         <strong>landscape</strong><br>
-        <strong>malpa</strong><br>
         <strong>luxury</strong><br>
-        <strong>obajtek</strong><br>
-        <strong>ziobro</strong><br>
+        <strong>malpa</strong><br>
+        <strong>people</strong><br>
+        <strong>shop</strong><br>
+        <strong>tank</strong><br>
+        <strong>woman</strong><br>
+
     </p>
 
     <h3>Examples:</h3>
-    <pre>http://pokaimg.me/600x300/
+    <pre>http://pokaimg.me/600x300
 http://pokaimg.me/600x300/blurry?text=test
 http://pokaimg.me/600x300/cat?gray=1&c=gold
 http://pokaimg.me/600x300/abstract?text=
@@ -172,6 +204,6 @@ http://pokaimg.me/600x300/?bg=gold&c=black</pre>
         <img alt="" src="http://pokaimg.me/600x300/?bg=gold&color=black">
     </div>
 
-    <p class="author"><small><a href="http://domanart.pl/portfolio">Created by Marcin Domański</a></small></p>
+    <p class="author"><small><a href="http://portfolio.domanart.pl">Created by Marcin Domański</a></small></p>
 </body>
 </html>
