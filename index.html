@@ -4,42 +4,44 @@
     <meta charset="utf-8">
     <title>PokaImg.me</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         * {
             box-sizing: border-box;
         }
-        ::-webkit-scrollbar-track {
-            height: 3px;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #f1404b;
+        :root {
+            --color1: #1014ee;
         }
         html {
             height: 100vh;
-            background: #f8f8f8;
+            background: #fff;
         }
         body {
             background: #fff;
-            padding: 50px;
             font-family: sans-serif;
             min-height: 100%;
-            max-width: 1300px;
+            max-width: 70rem;
             margin: 0 auto;
-            color: #777;
+            color: #000;
+            padding: 1rem;
         }
         .title {
-            background: linear-gradient(-45deg,#ffa63d,#ff3d77,#b933f9,#5f19dd);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
+            color: #000;
             font-weight: 900;
-            font-size: 60px;
+            font-size: 5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
             margin-top: 0;
             margin-bottom: 0;
         }
+        @media (max-width: 35rem) {
+            .title {
+                font-size: 2.5rem;
+            }
+        }
         .subtitle {
-            font-size: 20px;
+            font-size: 1.5rem;
             border-bottom: 1px solid #ddd;
             margin-bottom: 3rem;
             padding-bottom: 2rem;
@@ -50,41 +52,64 @@
             margin: 0;
         }
         ul li {
-            margin-bottom: 30px;
+            margin-bottom: 2rem;
             display: flex;
             flex-direction: column;
             align-items: flex-start;
         }
         h2, h3 {
-            font-size: 30px;
+            font-size: 2rem;
             color: #000;
         }
         code {
             font-size: 1.2rem;
             font-family: Consolas, "Courier New", monospace;
             background: #f4f5f9;
-            padding: 2px 10px;
-            border-radius: 3px;
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.12rem;
             display: inline-block;
-            color: #000;
-            margin-bottom: 5px;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        code b {
+            color: var(--color1);
         }
         pre {
-            color: #000;
+            color: #333;
             background: #f4f5f9;
             font-size: 1.2em;
-            padding: 30px;
-            border-radius: 5px;
+            padding: 1.87rem;
+            border-radius: 0.5rem;
             font-family: Consolas, "Courier New", monospace;
             overflow-x: auto;
         }
         img {
             max-width: 100%;
         }
+        .category-list {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.625rem;
+        }
+        .category-list li {
+            margin-bottom: 0;
+            display: inline-block;
+            font-size: 1.3em;
+            color: var(--color1);
+            background: #eee;
+            padding: 2px 10px;
+            border-radius: 4px;
+        }
+        .parameters li {
+            border-bottom: 0.0625rem solid #eee;
+            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
         .author {
-            padding-top: 20px;
+            padding-top: 1.25rem;
             text-align: center;
-            color: #aaa;
+            color: #888;
         }
         .author a {
             color: inherit;
@@ -92,9 +117,9 @@
         .grid-top {
             display: grid;
             grid-template-columns: auto auto;
-            gap: 30px;
+            gap: 1.87rem;
         }
-        @media (max-width: 680px) {
+        @media (max-width: 42.5rem) {
             .grid-top {
                 grid-template-columns: 1fr;
             }
@@ -104,7 +129,7 @@
             grid-template-columns: repeat(3, 1fr);
             gap: 20px;
         }
-        @media (max-width: 600px) {
+        @media (max-width: 37.5rem) {
             .grid-bottom {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -112,98 +137,118 @@
     </style>
 </head>
 <body>
-    <h1 class="title">PokaImg.me</h1>
+    <h1 class="title">
+        PokaImg.me
+    </h1>
     <p class="subtitle">Another image placeholder generator 😏</p>
 
     <div class="grid-top">
         <div>
-            <img src="http://pokaimg.me/600x300/blurry" alt="">
+            <img src="https://pokaimg.me/600x400/blurry" alt="">
             <p>
-            <code>http://pokaimg.me/600x300/blurry</code>
+            <code>https://pokaimg.me/600x400/blurry</code>
             </p>
         </div>
         <div>
-            <img src="http://pokaimg.me/600x300/malpa?text=For%20free?" alt="">
+            <img src="https://pokaimg.me/600x400/monkey?text=For%20free?" alt="">
             <p>
-                <code>http://pokaimg.me/600x300/malpa?text=For%20free?</code>
+                <code>https://pokaimg.me/600x400/malpa?text=For%20free?</code>
             </p>
         </div>
     </div>
 
-    <h3>Parameters:</h3>
-    <ul>
-        <li><code>http://pokaimg.me/<b>200x400</b></code>
-            <span>set specific size</span></li>
-        <li>
-            <code>http://pokaimg.me/200x400?<b>bg=red</b></code>
-            <code>http://pokaimg.me/200x400?<b>bg=ff0000</b></code>
-            <code>http://pokaimg.me/200x400?<b>bg=f00</b></code>
-            <span>set background color. Color can be given as a html color name, or in hexadecimal form - 3 or 6 characters (without #)</span></li>
-        <li>
-            <code>http://pokaimg.me/200x400?<b>c=red</b></code>
-            <code>http://pokaimg.me/200x400?<b>c=ff0000</b></code>
-            <code>http://pokaimg.me/200x400?<b>c=f00</b></code>
-            <span>Text color. Color can be given as a color name, or in hexadecimal form - 3 or 6 characters (without #)</span></li>
-        <li>
-            <code>http://pokaimg.me/200x400?<b>text=Lorem</b></code>
-            <span>set text to "Lorem"</span></li>
-        <li>
-            <code>http://pokaimg.me/200x400?<b>text=</b></code>
-            <span>set text to empty (without dimension on image)</span></li>
-        <li>
-            <code>http://pokaimg.me/200x400?<b>gray=1</b>&text=lorem</code>
-            <span>set grayscale mode</span></li>
-        <li>
-            <code>http://pokaimg.me/200x400/<b>blur</b></code>
-            <code>http://pokaimg.me/200x400/<b>luxury</b>?text=lorem&gray=1</code>
-            <span>generate image from specyfic category</span></li>
-        <li>
-            <code>http://pokaimg.me/200x400?<b>cross=1</b></code>
-            <span>generate cross lines on photo</span></li>
-        <li>
-            <code>http://pokaimg.me/200x400?<b>id=3</b></code>
-            <span>show specyfic image</span>
-        </li>
-    </ul>
+    <section>
+        <h3>Parameters:</h3>
+        <ul class="parameters">
+            <li>
+                <code>https://pokaimg.me/<b>200x400</b></code>
+                <span>set specific size. Minimum size is <code>10x10</code>, maximum is <code>3000x3000</code></span>
+            </li>
+            <li>
+                <code>https://pokaimg.me/200x400?<b>bg=red</b></code>
+                <code>https://pokaimg.me/200x400?<b>bg=ff0000</b></code>
+                <code>https://pokaimg.me/200x400?<b>bg=f00</b></code>
+                <span>set background color. Color can be given as a html color name, or in hexadecimal form - 3 or 6 characters (without #)</span>
+            </li>
+            <li>
+                <code>https://pokaimg.me/200x400?<b>c=red</b></code>
+                <code>https://pokaimg.me/200x400?<b>c=ff0000</b></code>
+                <code>https://pokaimg.me/200x400?<b>c=f00</b></code>
+                <span>Text color. Color can be given as a color name, or in hexadecimal form - 3 or 6 characters (without #)</span>
+            </li>
+            <li>
+                <code>https://pokaimg.me/200x400?<b>text=Lorem</b></code>
+                <span>set text to "Lorem"</span>
+            </li>
+            <li>
+                <code>https://pokaimg.me/200x400?<b>text=</b></code>
+                <code>https://pokaimg.me/200x400?<b>notext&bg=red</b></code>
+                <span>set text to empty (without dimension on image)</span>
+            </li>
+            <li>
+                <code>https://pokaimg.me/200x400?<b>gray=1</b>&text=lorem</code>
+                <span>set grayscale mode</span>
+            </li>
+            <li>
+                <code>https://pokaimg.me/200x400/<b>blur</b></code>
+                <code>https://pokaimg.me/200x400/<b>woman</b></code>
+                <code>https://pokaimg.me/200x400/<b>luxury</b>?text=lorem&gray=1</code>
+                <span>generate image from specific category</span>
+            </li>
+            <li>
+                <code>https://pokaimg.me/200x400?<b>cross=1</b></code>
+                <span>generate cross lines on photo</span>
+            </li>
+            <li>
+                <code>https://pokaimg.me/200x400?<b>id=3</b></code>
+                <span>show specific image</span>
+            </li>
+        </ul>
 
-    <p>You can mix all parameters (look below for examples).</p>
+        <p>You can mix all parameters (look below for examples).</p>
 
-    <h3>Category list:</h3>
-    <p>
-        <strong>abstract</strong><br>
-        <strong>bikini</strong><br>
-        <strong>blurry</strong><br>
-        <strong>cars</strong><br>
-        <strong>cat</strong><br>
-        <strong>dog</strong><br>
-        <strong>food</strong><br>
-        <strong>landscape</strong><br>
-        <strong>luxury</strong><br>
-        <strong>malpa</strong><br>
-        <strong>people</strong><br>
-        <strong>shop</strong><br>
-        <strong>tank</strong><br>
-        <strong>woman</strong><br>
+        <h3>Category list:</h3>
+        <p><code>https://pokaimg.me/200x400/<b>blurry</b>?text=test&gray=1&id=3</code></p>
 
-    </p>
+        <ul class="category-list">
+        </ul>
+        <script>
+            (async () => {
+                const ul = document.querySelector(".category-list");
+                const res = await fetch("/folders");
+                if (res.ok) {
+                    const json = await res.json();
+                    json.folders.forEach(el => {
+                        const li = document.createElement("li");
+                        li.innerText = el;
+                        ul.append(li);
+                    })
+                }
+            })();
+        </script>
+    </section>
 
-    <h3>Examples:</h3>
-    <pre>http://pokaimg.me/600x300
-http://pokaimg.me/600x300/blurry?text=test
-http://pokaimg.me/600x300/cat?gray=1&c=gold
-http://pokaimg.me/600x300/abstract?text=
-http://pokaimg.me/600x300/dog/?text=small%20dog&c=F68657
-http://pokaimg.me/600x300/?bg=gold&c=black</pre>
+    <section>
+        <h3>Examples:</h3>
+        <pre>https://pokaimg.me/600x400
+    https://pokaimg.me/600x400/blurry?text=test
+    https://pokaimg.me/600x400/cat?gray=1&c=gold
+    https://pokaimg.me/600x400/abstract?notext
+    https://pokaimg.me/600x400/dog/?text=small%20dog&c=F68657
+    https://pokaimg.me/600x400/?bg=gold&c=black</pre>
 
-    <div class="grid-bottom">
-        <img alt="" src="http://pokaimg.me/600x300/">
-        <img alt="" src="http://pokaimg.me/600x300/blurry?text=test">
-        <img alt="" src="http://pokaimg.me/600x300/cat?gray=1&color=gold">
-        <img alt="" src="http://pokaimg.me/600x300/abstract?text=">
-        <img alt="" src="http://pokaimg.me/600x300/dog/?text=small%20dog&color=F68657">
-        <img alt="" src="http://pokaimg.me/600x300/?bg=gold&color=black">
-    </div>
+        <div class="grid-bottom">
+            <img alt="" src="https://pokaimg.me/600x400/">
+            <img alt="" src="https://pokaimg.me/600x400/blurry?text=test">
+            <img alt="" src="https://pokaimg.me/600x400/cat?gray=1&c=gold">
+            <img alt="" src="https://pokaimg.me/600x400/abstract?notext">
+            <img alt="" src="https://pokaimg.me/600x400/dog/?text=small%20dog&c=F68657">
+            <img alt="" src="https://pokaimg.me/600x400/?bg=gold&c=black">
+        </div>
+    </section>
 
-    <p class="author"><small><a href="http://portfolio.domanart.pl">Created by Marcin Domański</a></small></p>
+    <footer>
+        <p class="author"><small><a href="http://domanart.pl">Created by Marcin Domański</a></small></p>
+    </footer>
 </body>
 </html>

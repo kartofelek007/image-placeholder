@@ -1,48 +1,22 @@
 const express = require('express');
 const app = express();
-const { createCanvas, loadImage } = require('canvas');
-const htmlColors = require("./html-colors");
+const { registerFont, createCanvas, loadImage } = require('canvas');
 const fs = require("fs");
+const functions = require("./functions");
 
-function checkColor(text, defaultValue) {
-    if (/^[abcdef0-9]{6}$/i.test(text)) {
-        return '#' + text;
-    }
-    if (/^[abcdef0-9]{3}$/i.test(text)) {
-        return '#' + text;
-    }
-    if (/^.+$/.test(text) && htmlColors.includes(text)) {
-        return text;
-    }
+const checkColor = functions.checkColor;
+const colorBrightness = functions.colorBrightness;
+const calculateFontSize = functions.calculateFontSize;
 
-    return defaultValue;
-}
-
-function colorBrightness(color) {
-    const c = color.substring(1);
-    const rgb = parseInt(c, 16);
-    const r = (rgb >> 16) & 0xff;
-    const g = (rgb >>  8) & 0xff;
-    const b = (rgb >>  0) & 0xff;
-
-    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
-}
-
-function calculateFontSize(fontSize, text, ctx) {
-    ctx.save();
-    ctx.fontSize = fontSize;
-    let w = ctx.canvas.width;
-    const width = w >= 100 ? w - 50 : w - 20;
-    do {
-        ctx.font = `bold ${fontSize}px Source Sans Pro, sans-serif`;
-        w = ctx.measureText(text).width;
-        fontSize--;
-    } while (w > width)
-    return w;
-}
-
+//pokazanie index.html
 app.get("/", async (req, res) => {
     res.sendFile(__dirname + '/index.html');
+});
+
+//pobieranie katalogow
+app.get("/folders", async (req, res) => {
+    const folders = await fs.promises.readdir(`./images`);
+    res.json({ folders });
 });
 
 app.get("/:width([0-9]+)x:height([0-9]+)/:category?", async (req, res) => {
@@ -54,46 +28,51 @@ app.get("/:width([0-9]+)x:height([0-9]+)/:category?", async (req, res) => {
     //ustawiam max rozdzielczosc
     if (width > 3000) width = 3000;
     if (height > 3000) height = 3000;
+    if (width < 10) width = 10;
+    if (height < 10) height = 10;
 
     let text = `${width}x${height}`;
     if (req.query.text !== undefined) {
         text = req.query.text;
     }
 
-    let bg = "#ddd";
+    let noText = (req.query.notext !== undefined) ? true : false;
+    if (width < 40 || height < 20) {
+        noText = true;
+    }
+
+    let bg = "#F2F2F2";
     if (req.query.bg !== undefined) {
         bg = checkColor(req.query.bg, bg);
-
     }
 
-    let color = "#fff";
+    let textColor = "#fff";
     if (req.query.c !== undefined) {
-        color = checkColor(req.query.c, color);
+        textColor = checkColor(req.query.c, textColor);
     }
 
-    let imageCross = false;
-    if (req.query.cross !== undefined) {
-        imageCross = true;
+    let imageCross = req.query.cross ? true : false;
+
+    let grayscale = req.query.gray ? true : false;
+
+    let imageID = undefined;
+    if (req.query.id !== undefined) {
+        imageID = +req.query.id;
+        if (!Number(imageID)) imageID = undefined;
     }
 
     const canvas = createCanvas(width, height);
     const ctx = canvas.getContext("2d");
 
-    if (category !== "user") {
-        if (!fs.existsSync(`./images/${category}`)) {
-            category = undefined
-        }
-
-        if (category !== undefined) {
+    if (category) {
+        if (fs.existsSync(`./images/${category}`)) {
             const images = await fs.promises.readdir(`./images/${category}`);
 
-            if (!images.length) {
-                category = undefined;
-            } else {
+            if (images.length) {
                 let index = Math.floor(Math.random() * images.length);
 
-                if (req.query.id !== undefined) {
-                    index = +req.query.id % images.length;
+                if (imageID !== undefined) {
+                    index = +imageID % images.length;
                 }
 
                 const image = await loadImage(`./images/${category}/${images[index]}`);
@@ -105,34 +84,32 @@ app.get("/:width([0-9]+)x:height([0-9]+)/:category?", async (req, res) => {
 
                 ctx.drawImage(image, x, y, image.width * scale, image.height * scale);
             }
-
-            //grayscale
-            if (req.query.gray) {
-                let imgData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
-                let pixels = imgData.data;
-                for (let i = 0; i < pixels.length; i += 4) {
-                    let lightness = parseInt((pixels[i] + pixels[i + 1] + pixels[i + 2]) / 3);
-                    pixels[i] = lightness;
-                    pixels[i + 1] = lightness;
-                    pixels[i + 2] = lightness;
-                }
-                ctx.putImageData(imgData, 0, 0);
-            }
         }
-    }
+    } else {
+        //change #f00 to #ff0000
+        if (/^#[0-9abcdef]{3}$/i.test(bg)) {
+            bg = `#${bg[1]}${bg[1]}${bg[2]}${bg[2]}${bg[3]}${bg[3]}`;
+        }
 
-    //change #f00 to #ff0000
-    if (bg.length === 4 && bg[0] === "#") {
-        bg = `#${bg[1]}${bg[1]}${bg[2]}${bg[2]}${bg[3]}${bg[3]}`;
-    }
-
-    if (category === undefined) {
         ctx.fillStyle = bg;
         ctx.fillRect(0, 0, width, height);
     }
 
+    //grayscale
+    if (grayscale) {
+        let imgData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
+        let pixels = imgData.data;
+        for (let i = 0; i < pixels.length; i += 4) {
+            let lightness = parseInt((pixels[i] + pixels[i + 1] + pixels[i + 2]) / 3);
+            pixels[i] = lightness;
+            pixels[i + 1] = lightness;
+            pixels[i + 2] = lightness;
+        }
+        ctx.putImageData(imgData, 0, 0);
+    }
+
     if (imageCross) {
-        ctx.strokeStyle = "rgba(0,0,0,0.1)";
+        ctx.strokeStyle = "rgba(0, 0, 0, 0.2)";
         ctx.lineWidth = 1;
         ctx.moveTo(0, 0);
         ctx.lineTo(width, height);
@@ -142,26 +119,20 @@ app.get("/:width([0-9]+)x:height([0-9]+)/:category?", async (req, res) => {
         ctx.stroke();
     }
 
-    ctx.textBaseline = "middle";
-    ctx.textAlign = "center";
-    ctx.fillStyle = color;
+    if (!noText) {
+        ctx.textBaseline = "middle";
+        ctx.textAlign = "center";
 
-    ctx.fontSize = calculateFontSize(35, text, ctx);
+        let fontSize = calculateFontSize(40, text, ctx);
+        ctx.font = `bold ${fontSize}px sans-serif`;
 
-    if (category === undefined) {
-        if (req.query.c) {        
-            ctx.fillStyle = color;
-        } else {
-            ctx.fillStyle = "#333";
-        }
-    } else {
-        ctx.lineWidth = 2;
-        ctx.strokeStyle = "rgba(0,0,0,0.3)";
+        ctx.lineWidth = (canvas.width <= 40 || canvas.height < 40) ? 0.8 : 1.6;
+        ctx.strokeStyle = "#0F0F0F";
         ctx.strokeText(text, width / 2, height / 2);
-        ctx.fillStyle = "#fff"
-    }
 
-    ctx.fillText(text, width / 2, height / 2);
+        ctx.fillStyle = textColor;
+        ctx.fillText(text, width / 2, height / 2);
+    }
 
     const buffer = canvas.toBuffer('image/png')
     res.setHeader('Content-Type', 'image/png');
