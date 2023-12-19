@@ -26,8 +26,8 @@ app.get("/:width([0-9]+)x:height([0-9]+)/:category?", async (req, res) => {
     height = +height;
 
     //ustawiam max rozdzielczosc
-    if (width > 3000) width = 3000;
-    if (height > 3000) height = 3000;
+    if (width > 1000) width = 1000;
+    if (height > 1000) height = 1000;
     if (width < 10) width = 10;
     if (height < 10) height = 10;
 
