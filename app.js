@@ -8,6 +8,8 @@ const checkColor = functions.checkColor;
 const colorBrightness = functions.colorBrightness;
 const calculateFontSize = functions.calculateFontSize;
 
+app.use('/favicon.svg', express.static('./favicon.svg'));
+
 //pokazanie index.html
 app.get("/", async (req, res) => {
     res.sendFile(__dirname + '/index.html');
@@ -41,7 +43,7 @@ app.get("/:width([0-9]+)x:height([0-9]+)/:category?", async (req, res) => {
         noText = true;
     }
 
-    let bg = "#F2F2F2";
+    let bg = "#ddd";
     if (req.query.bg !== undefined) {
         bg = checkColor(req.query.bg, bg);
     }
@@ -51,9 +53,9 @@ app.get("/:width([0-9]+)x:height([0-9]+)/:category?", async (req, res) => {
         textColor = checkColor(req.query.c, textColor);
     }
 
-    let imageCross = req.query.cross ? true : false;
+    let imageLines = req.query.lines !== undefined ? true : false;
 
-    let grayscale = req.query.gray ? true : false;
+    let grayscale = req.query.gray !== undefined ? true : false;
 
     let imageID = undefined;
     if (req.query.id !== undefined) {
@@ -83,14 +85,19 @@ app.get("/:width([0-9]+)x:height([0-9]+)/:category?", async (req, res) => {
                 let y = (canvas.height / 2) - (image.height / 2) * scale;
 
                 ctx.drawImage(image, x, y, image.width * scale, image.height * scale);
+            } else {
+                category = false;
             }
+        } else {
+            category = false;
         }
-    } else {
+    }
+
+    if (!category) {
         //change #f00 to #ff0000
         if (/^#[0-9abcdef]{3}$/i.test(bg)) {
             bg = `#${bg[1]}${bg[1]}${bg[2]}${bg[2]}${bg[3]}${bg[3]}`;
         }
-
         ctx.fillStyle = bg;
         ctx.fillRect(0, 0, width, height);
     }
@@ -108,7 +115,7 @@ app.get("/:width([0-9]+)x:height([0-9]+)/:category?", async (req, res) => {
         ctx.putImageData(imgData, 0, 0);
     }
 
-    if (imageCross) {
+    if (imageLines) {
         ctx.strokeStyle = "rgba(0, 0, 0, 0.2)";
         ctx.lineWidth = 1;
         ctx.moveTo(0, 0);

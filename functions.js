@@ -26,7 +26,7 @@ function colorBrightness(color) {
 
 function calculateFontSize(fontSize, text, ctx) {
     ctx.save();
-    let target = ctx.canvas.width - 10;
+    let target = ctx.canvas.width - 30;
     if (target < 10) target = 10;
 
     let tempWidth = target;

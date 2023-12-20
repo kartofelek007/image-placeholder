@@ -21,10 +21,14 @@
             background: #fff;
             font-family: sans-serif;
             min-height: 100%;
-            max-width: 70rem;
+            max-width: 75rem;
             margin: 0 auto;
             color: #000;
             padding: 1rem;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
         }
         .title {
             color: #000;
@@ -34,6 +38,11 @@
             letter-spacing: 2px;
             margin-top: 0;
             margin-bottom: 0;
+
+        }
+        .title b {
+            color: var(--color1);
+            font-weight: inherit;
         }
         @media (max-width: 35rem) {
             .title {
@@ -71,6 +80,9 @@
             color: #333;
             margin-bottom: 0.5rem;
         }
+        code.inline {
+            font-size: inherit;
+        }
         code b {
             color: var(--color1);
         }
@@ -100,6 +112,7 @@
             background: #eee;
             padding: 2px 10px;
             border-radius: 4px;
+            font-weight: bold;
         }
         .parameters li {
             border-bottom: 0.0625rem solid #eee;
@@ -116,10 +129,10 @@
         }
         .grid-top {
             display: grid;
-            grid-template-columns: auto auto;
+            grid-template-columns: 1fr 1fr;
             gap: 1.87rem;
         }
-        @media (max-width: 42.5rem) {
+        @media (max-width: 50rem) {
             .grid-top {
                 grid-template-columns: 1fr;
             }
@@ -138,19 +151,19 @@
 </head>
 <body>
     <h1 class="title">
-        PokaImg.me
+        Poka<b>Img</b>.me
     </h1>
     <p class="subtitle">Another image placeholder generator 😏</p>
 
     <div class="grid-top">
         <div>
-            <img src="https://pokaimg.me/600x400/blurry" alt="">
+            <img src="https://pokaimg.me/600x400/blob" alt="">
             <p>
-            <code>https://pokaimg.me/600x400/blurry</code>
+            <code>https://pokaimg.me/600x400/blob</code>
             </p>
         </div>
         <div>
-            <img src="https://pokaimg.me/600x400/monkey?text=For%20free?" alt="">
+            <img src="https://pokaimg.me/600x400/malpa?text=For%20free?" alt="">
             <p>
                 <code>https://pokaimg.me/600x400/malpa?text=For%20free?</code>
             </p>
@@ -162,7 +175,7 @@
         <ul class="parameters">
             <li>
                 <code>https://pokaimg.me/<b>200x400</b></code>
-                <span>set specific size. Minimum size is <code>10x10</code>, maximum is <code>1000x1000</code></span>
+                <span>set specific size. Minimum size is <code class="inline">10x10</code>, maximum is <code class="inline">1000x1000</code></span>
             </li>
             <li>
                 <code>https://pokaimg.me/200x400?<b>bg=red</b></code>
@@ -186,17 +199,16 @@
                 <span>set text to empty (without dimension on image)</span>
             </li>
             <li>
-                <code>https://pokaimg.me/200x400?<b>gray=1</b>&text=lorem</code>
+                <code>https://pokaimg.me/200x400?<b>gray</b>&text=lorem</code>
                 <span>set grayscale mode</span>
             </li>
             <li>
-                <code>https://pokaimg.me/200x400/<b>blur</b></code>
-                <code>https://pokaimg.me/200x400/<b>woman</b></code>
+                <code>https://pokaimg.me/200x400/<b>blob</b></code>
                 <code>https://pokaimg.me/200x400/<b>luxury</b>?text=lorem&gray=1</code>
                 <span>generate image from specific category</span>
             </li>
             <li>
-                <code>https://pokaimg.me/200x400?<b>cross=1</b></code>
+                <code>https://pokaimg.me/200x400?<b>lines</b></code>
                 <span>generate cross lines on photo</span>
             </li>
             <li>
@@ -231,19 +243,19 @@
     <section>
         <h3>Examples:</h3>
         <pre>https://pokaimg.me/600x400
-    https://pokaimg.me/600x400/blurry?text=test
-    https://pokaimg.me/600x400/cat?gray=1&c=gold
-    https://pokaimg.me/600x400/abstract?notext
-    https://pokaimg.me/600x400/dog/?text=small%20dog&c=F68657
-    https://pokaimg.me/600x400/?bg=gold&c=black</pre>
+https://pokaimg.me/600x400/tank?text=102
+https://pokaimg.me/600x400/cat?gray&lines&c=gold
+https://pokaimg.me/600x400/blob?notext
+https://pokaimg.me/600x400/dog/?text=small%20dog&c=F68657
+https://pokaimg.me/600x400/?bg=gold&c=black&lines</pre>
 
         <div class="grid-bottom">
             <img alt="" src="https://pokaimg.me/600x400/">
-            <img alt="" src="https://pokaimg.me/600x400/blurry?text=test">
-            <img alt="" src="https://pokaimg.me/600x400/cat?gray=1&c=gold">
-            <img alt="" src="https://pokaimg.me/600x400/abstract?notext">
+            <img alt="" src="https://pokaimg.me/600x400/tank?text=102">
+            <img alt="" src="https://pokaimg.me/600x400/cat?gray&lines&c=gold">
+            <img alt="" src="https://pokaimg.me/600x400/blob?notext">
             <img alt="" src="https://pokaimg.me/600x400/dog/?text=small%20dog&c=F68657">
-            <img alt="" src="https://pokaimg.me/600x400/?bg=gold&c=black">
+            <img alt="" src="https://pokaimg.me/600x400/?bg=gold&c=black&lines">
         </div>
     </section>
 
