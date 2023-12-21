@@ -22,7 +22,7 @@
             const img = document.createElement("img");
             let width = random(10, 500);
             let height = random(10, 500);
-            let src = `http://localhost:3333/${width}x${height}`;
+            let src = `/${width}x${height}`;
             if (random(0, 10) < 5) {
                 src += "/" + category[Math.floor(Math.random()*category.length)];
             }
