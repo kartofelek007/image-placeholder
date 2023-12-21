@@ -29,6 +29,49 @@
         img {
             max-width: 100%;
             height: auto;
+            border-radius: 5px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        ul li {
+            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        h2, h3 {
+            font-size: 2.2rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            color: #000;
+        }
+        code {
+            font-size: 1.1rem;
+            font-family: Consolas, "Courier New", monospace;
+            background: #f4f5f9;
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.12rem;
+            display: inline-block;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        code.inline {
+            font-size: inherit;
+        }
+        code b {
+            color: var(--color1);
+        }
+        pre {
+            color: #333;
+            background: #f4f5f9;
+            font-size: 1.2em;
+            padding: 1.87rem;
+            border-radius: 0.5rem;
+            font-family: Consolas, "Courier New", monospace;
+            overflow-x: auto;
         }
         .title {
             color: #000;
@@ -54,49 +97,6 @@
             margin-bottom: 3rem;
             padding-bottom: 2rem;
         }
-        ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        ul li {
-            margin-bottom: 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-        h2, h3 {
-            font-size: 2rem;
-            color: #000;
-        }
-        code {
-            font-size: 1.2rem;
-            font-family: Consolas, "Courier New", monospace;
-            background: #f4f5f9;
-            padding: 0.2rem 0.5rem;
-            border-radius: 0.12rem;
-            display: inline-block;
-            color: #333;
-            margin-bottom: 0.5rem;
-        }
-        code.inline {
-            font-size: inherit;
-        }
-        code b {
-            color: var(--color1);
-        }
-        pre {
-            color: #333;
-            background: #f4f5f9;
-            font-size: 1.2em;
-            padding: 1.87rem;
-            border-radius: 0.5rem;
-            font-family: Consolas, "Courier New", monospace;
-            overflow-x: auto;
-        }
-        img {
-            max-width: 100%;
-        }
         .category-list {
             display: flex;
             flex-direction: column;
@@ -112,6 +112,12 @@
             padding: 2px 10px;
             border-radius: 4px;
             font-weight: bold;
+        }
+        .category-list strong {
+            font-weight: bold;
+        }
+        .category-list span {
+            font-weight: normal;
         }
         .parameters li {
             border-bottom: 0.0625rem solid #eee;
@@ -162,9 +168,9 @@
             </p>
         </div>
         <div>
-            <img src="https://pokaimg.me/600x400/malpa?text=For%20free?" alt="">
+            <img src="https://pokaimg.me/600x400/malpa?id=9&text=For%20free?" alt="">
             <p>
-                <code>https://pokaimg.me/600x400/malpa?text=For%20free?</code>
+                <code>https://pokaimg.me/600x400/malpa?id=9&text=For%20free?</code>
             </p>
         </div>
     </div>
@@ -226,12 +232,12 @@
         <script>
             (async () => {
                 const ul = document.querySelector(".category-list");
-                const res = await fetch("/folders");
+                const res = await fetch("/categories");
                 if (res.ok) {
                     const json = await res.json();
-                    json.folders.forEach(el => {
+                    json.categories.forEach(el => {
                         const li = document.createElement("li");
-                        li.innerText = el;
+                        li.innerText = el.name;
                         ul.append(li);
                     })
                 }

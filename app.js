@@ -20,9 +20,21 @@ app.get("/stress-test", async (req, res) => {
 });
 
 //pobieranie katalogow
-app.get("/folders", async (req, res) => {
+app.get("/categories", async (req, res) => {
     const folders = await fs.promises.readdir(`./images`);
-    res.json({ folders });
+    let data = [];
+
+    for await (let folder of folders) {
+        const images = await fs.promises.readdir(`./images/${folder}`);
+        data.push({
+            count : images.length,
+            name : folder
+        });
+    }
+
+    data = data.sort((a, b) => a.name.localeCompare(b.name));
+
+    res.json({ categories : data });
 });
 
 app.get("/:width([0-9]+)x:height([0-9]+)/:category?", async (req, res) => {
@@ -78,7 +90,9 @@ app.get("/:width([0-9]+)x:height([0-9]+)/:category?", async (req, res) => {
                 let index = Math.floor(Math.random() * images.length);
 
                 if (imageID !== undefined) {
-                    index = +imageID % images.length;
+                    const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
+
+                    index = clamp(0, +imageID, images.length - 1)
                 }
 
                 const image = await loadImage(`./images/${category}/${images[index]}`);
