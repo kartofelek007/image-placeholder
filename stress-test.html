@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            gap: 20px;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        let random = (min=0, max=100) => Math.floor(Math.random()*(max-min+1)+min);
+        let count = 100;
+        let category = ["blob", "car", "cat", "dog", "food", "landscape", "luxury", "malpa", "shop", "tank"];
+        for (let i=0; i<count; i++) {
+            const img = document.createElement("img");
+            let width = random(10, 500);
+            let height = random(10, 500);
+            let src = `http://localhost:3333/${width}x${height}`;
+            if (random(0, 10) < 5) {
+                src += "/" + category[Math.floor(Math.random()*category.length)];
+            }
+            if (random(0, 10) < 5) {
+                src += "?"
+                if (random(0, 10) < 5) {
+                    src += "&cross"
+                }
+                if (random(0, 10) < 5) {
+                    src += "&gray"
+                }
+                if (random(0, 10) < 5) {
+                    src += "&noText"
+                }
+                if (random(0, 10) < 5) {
+                    src += "&text=lorem psum sit dolor amet lorem ipsum sit dolor amet";
+                }
+            }
+            img.src = src;
+            document.body.append(img);
+        }
+    </script>
+</body>
+</html>

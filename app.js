@@ -15,6 +15,10 @@ app.get("/", async (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
 
+app.get("/stress-test", async (req, res) => {
+    res.sendFile(__dirname + '/stress-test.html');
+});
+
 //pobieranie katalogow
 app.get("/folders", async (req, res) => {
     const folders = await fs.promises.readdir(`./images`);
@@ -130,7 +134,7 @@ app.get("/:width([0-9]+)x:height([0-9]+)/:category?", async (req, res) => {
         ctx.textBaseline = "middle";
         ctx.textAlign = "center";
 
-        let fontSize = calculateFontSize(40, text, ctx);
+        let fontSize = calculateFontSize(ctx);
         ctx.font = `bold ${fontSize}px sans-serif`;
 
         ctx.lineWidth = (canvas.width <= 40 || canvas.height < 40) ? 0.8 : 1.6;
