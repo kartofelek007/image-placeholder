@@ -138,17 +138,18 @@
         }
         .grid-bottom {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             gap: 20px;
         }
         @media (max-width: 37.5rem) {
             .grid-bottom {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(1, 1fr);
             }
         }
     </style>
 </head>
 <body>
+
     <h1 class="title">
         Poka<b>Img</b>.me
     </h1>
@@ -241,25 +242,41 @@
 
     <section>
         <h3>Examples:</h3>
-        <pre>https://pokaimg.me/600x400
-https://pokaimg.me/600x400/tank?text=102
-https://pokaimg.me/600x400/gradient?notext
-https://pokaimg.me/600x400/blob?lines&text=blob
-https://pokaimg.me/600x400/car/?text=super%20car&c=orangered
-https://pokaimg.me/600x400/?bg=gold&c=black</pre>
 
         <div class="grid-bottom">
-            <img alt="" src="https://pokaimg.me/600x400/">
-            <img alt="" src="https://pokaimg.me/600x400/tank?text=102">
-            <img alt="" src="https://pokaimg.me/600x400/gradient?notext">
-            <img alt="" src="https://pokaimg.me/600x400/blob?lines&text=blob">
-            <img alt="" src="https://pokaimg.me/600x400/car/?text=super%20car&c=orangered">
-            <img alt="" src="https://pokaimg.me/600x400/?bg=gold&c=black">
+            <div>
+                <img alt="" src="https://pokaimg.me/600x400/">
+                <code>https://pokaimg.me/600x400</code>
+            </div>
+            <div>
+                <img alt="" src="https://pokaimg.me/600x400/tank?text=102">
+                <code>https://pokaimg.me/600x400/tank?text=102</code><br>
+            </div>
+            <div>
+                <img alt="" src="https://pokaimg.me/600x400/gradient?notext">
+                <code>https://pokaimg.me/600x400/gradient?notext</code>
+            </div>
+            <div>
+                <img alt="" src="https://pokaimg.me/600x400/blob?lines&text=blob">
+                <code>https://pokaimg.me/600x400/blob?lines&text=blob</code>
+            </div>
+            <div>
+                <img alt="" src="https://pokaimg.me/600x400/car/?text=super%20car&c=orangered">
+                <code>https://pokaimg.me/600x400/car/?text=super%20car&c=orangered</code>
+            </div>
+            <div>
+                <img alt="" src="https://pokaimg.me/600x400/?bg=gold&c=black">
+                <code>https://pokaimg.me/600x400/?bg=gold&c=black</code>
+            </div>
         </div>
     </section>
 
     <footer>
         <p class="author"><small><a href="http://domanart.pl">Created by Marcin Domański</a></small></p>
     </footer>
+
+    <script>
+
+    </script>
 </body>
 </html>

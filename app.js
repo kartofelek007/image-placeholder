@@ -65,6 +65,7 @@ app.get("/:width([0-9]+)x:height([0-9]+)/:category?", async (req, res) => {
     }
 
     let textColor = "#fff";
+
     if (req.query.c !== undefined) {
         textColor = checkColor(req.query.c, textColor);
     }
@@ -87,12 +88,16 @@ app.get("/:width([0-9]+)x:height([0-9]+)/:category?", async (req, res) => {
             const images = await fs.promises.readdir(`./images/${category}`);
 
             if (images.length) {
+                textColorTemp = "#fff";
+
                 let index = Math.floor(Math.random() * images.length);
 
                 if (imageID !== undefined) {
-                    const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
+                    index = imageID;
+                }
 
-                    index = clamp(0, +imageID, images.length - 1)
+                if (index > images.length - 1) {
+                    index = Math.floor(index % images.length);
                 }
 
                 const image = await loadImage(`./images/${category}/${images[index]}`);
@@ -152,8 +157,11 @@ app.get("/:width([0-9]+)x:height([0-9]+)/:category?", async (req, res) => {
         ctx.font = `bold ${fontSize}px sans-serif`;
 
         ctx.lineWidth = (canvas.width <= 40 || canvas.height < 40) ? 0.8 : 1.6;
-        ctx.strokeStyle = "#0F0F0F";
-        ctx.strokeText(text, width / 2, height / 2);
+
+        if (colorBrightness(textColor) > 20) {
+            ctx.strokeStyle = "rgba(0, 0, 0, 0.6)";
+            ctx.strokeText(text, width / 2, height / 2);
+        }
 
         ctx.fillStyle = textColor;
         ctx.fillText(text, width / 2, height / 2);
