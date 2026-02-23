@@ -6,7 +6,6 @@ const functions = require("./functions");
 
 const checkColor = functions.checkColor;
 const colorBrightness = functions.colorBrightness;
-const calculateFontSize = functions.calculateFontSize;
 
 app.use('/favicon.svg', express.static('./favicon.svg'));
 
@@ -37,42 +36,42 @@ app.get("/categories", async (req, res) => {
     res.json({ categories : data });
 });
 
-app.get("/:width([0-9]+)x:height([0-9]+)/:category?", async (req, res) => {
+app.get("/:size{/:category}", async (req, res) => {
+    let { size, category } = req.params
 
-    let {category, width, height} = req.params;
-    width = +width;
-    height = +height;
+    const match = size.match(/^(\d+)x(\d+)$/)
+
+    if (!match) {
+        return res.status(400).send("Invalid dimensions format");
+    }
+
+    let width = Number(match[1])
+    let height = Number(match[2])
 
     //ustawiam max rozdzielczosc
-    if (width > 1000) width = 1000;
-    if (height > 1000) height = 1000;
+    if (width > 3000) width = 3000;
+    if (height > 3000) height = 3000;
     if (width < 10) width = 10;
     if (height < 10) height = 10;
 
-    let text = `${width}x${height}`;
+    let text = `${width}×${height}`;
     if (req.query.text !== undefined) {
         text = req.query.text;
     }
 
-    let noText = (req.query.notext !== undefined) ? true : false;
-    if (width < 40 || height < 20) {
-        noText = true;
-    }
+    let noText = (req.query.notext !== undefined || req.query.noText !== undefined || req.query.text === "") ? true : false;
 
-    let bg = "#ddd";
-    if (req.query.bg !== undefined) {
-        bg = checkColor(req.query.bg, bg);
-    }
+    let bgColorDefault = "#1D1F20";
 
     let textColor = "#fff";
 
-    if (req.query.c !== undefined) {
-        textColor = checkColor(req.query.c, textColor);
+    if (req.query.c !== undefined || req.query.color !== undefined) {
+        let color = req.query.color || req.query.c;
+        textColor = checkColor(color, textColor);
     }
 
-    let imageLines = req.query.lines !== undefined ? true : false;
-
-    let grayscale = req.query.gray !== undefined ? true : false;
+    let imageLines = req.query.lines !== undefined || req.query.cross !== undefined ? true : false;
+    let grayscale = req.query.gray !== undefined || req.query.grayscale !== undefined ? true : false;
 
     let imageID = undefined;
     if (req.query.id !== undefined) {
@@ -88,8 +87,6 @@ app.get("/:width([0-9]+)x:height([0-9]+)/:category?", async (req, res) => {
             const images = await fs.promises.readdir(`./images/${category}`);
 
             if (images.length) {
-                textColorTemp = "#fff";
-
                 let index = Math.floor(Math.random() * images.length);
 
                 if (imageID !== undefined) {
@@ -117,11 +114,22 @@ app.get("/:width([0-9]+)x:height([0-9]+)/:category?", async (req, res) => {
     }
 
     if (!category) {
-        //change #f00 to #ff0000
-        if (/^#[0-9abcdef]{3}$/i.test(bg)) {
-            bg = `#${bg[1]}${bg[1]}${bg[2]}${bg[2]}${bg[3]}${bg[3]}`;
+        //jak ktos poda kolor to wypelniamy kolorem
+        if (req.query.bg !== undefined) {
+            let bg1 = checkColor(req.query.bg, bgColorDefault);
+
+            if (/^#[0-9abcdef]{3}$/i.test(bg1)) {
+                bg1 = `#${bg1[1]}${bg1[1]}${bg1[2]}${bg1[2]}${bg1[3]}${bg1[3]}`;
+            }
+
+            ctx.fillStyle = bg1;
         }
-        ctx.fillStyle = bg;
+
+        //domyslnie gradient ciemny
+        if (req.query.bg === undefined) {
+            ctx.fillStyle = bgColorDefault;
+        }
+
         ctx.fillRect(0, 0, width, height);
     }
 
@@ -139,13 +147,13 @@ app.get("/:width([0-9]+)x:height([0-9]+)/:category?", async (req, res) => {
     }
 
     if (imageLines) {
-        ctx.strokeStyle = "rgba(0, 0, 0, 0.2)";
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.2)";
         ctx.lineWidth = 1;
-        ctx.moveTo(0, 0);
-        ctx.lineTo(width, height);
+        ctx.moveTo(width / 2 - 0.5, 0);
+        ctx.lineTo(width / 2 - 0.5, height);
         ctx.stroke();
-        ctx.moveTo(width, 0);
-        ctx.lineTo(0, height);
+        ctx.moveTo(0, height / 2 - 0.5);
+        ctx.lineTo(width, height / 2 - 0.5);
         ctx.stroke();
     }
 
@@ -153,13 +161,32 @@ app.get("/:width([0-9]+)x:height([0-9]+)/:category?", async (req, res) => {
         ctx.textBaseline = "middle";
         ctx.textAlign = "center";
 
-        let fontSize = calculateFontSize(ctx);
-        ctx.font = `bold ${fontSize}px sans-serif`;
+        const baseFontSize = 30;
+        const maxSize = 30;
+        registerFont('./fonts/Oswald-SemiBold.ttf', { family: 'Oswald' })
+        ctx.font = `${baseFontSize}px Oswald, Arial`;
 
-        ctx.lineWidth = (canvas.width <= 40 || canvas.height < 40) ? 0.8 : 1.6;
+        const textWidth = ctx.measureText(text).width;
+        const textHeight = baseFontSize; // przybliżenie
 
-        if (colorBrightness(textColor) > 20) {
-            ctx.strokeStyle = "rgba(0, 0, 0, 0.6)";
+        let padding = 60;
+        if (width < 120) padding = 40;
+        if (width < 90) padding = 30;
+        if (width < 60) padding = 15;
+        if (width < 40) padding = 5;
+
+        const scale = Math.min(
+            (width - padding) / textWidth,
+            (height - padding) / textHeight
+        );
+
+        let finalFontSize = baseFontSize * scale;
+        if (finalFontSize > maxSize) finalFontSize = maxSize;
+        ctx.font = `${finalFontSize}px Oswald, Arial`;
+
+        if (category) {
+            ctx.strokeStyle = "#000";
+            ctx.lineWidth = 1;
             ctx.strokeText(text, width / 2, height / 2);
         }
 

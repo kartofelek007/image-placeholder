@@ -24,23 +24,5 @@ function colorBrightness(color) {
     return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 }
 
-function calculateFontSize(ctx) {
-    let size = 30;
-    if (ctx.canvas.width < 150) {
-        size = 20
-    }
-    if (ctx.canvas.width < 100) {
-        size = 10
-    }
-    if (ctx.canvas.width < 50) {
-        size = 7
-    }
-    if (ctx.canvas.height < 50) {
-        size = 20;
-    }
-    return size
-}
-
 module.exports.checkColor = checkColor;
 module.exports.colorBrightness = colorBrightness;
-module.exports.calculateFontSize = calculateFontSize;

@@ -141,6 +141,14 @@
             grid-template-columns: repeat(2, 1fr);
             gap: 20px;
         }
+        .grid-bottom code {
+            font-size: 14px;
+        }
+        .img-cnt {
+            aspect-ratio: 600 / 400;
+            background: #fafafa;
+            border-radius: 5px;
+        }
         @media (max-width: 37.5rem) {
             .grid-bottom {
                 grid-template-columns: repeat(1, 1fr);
@@ -157,13 +165,17 @@
 
     <div class="grid-top">
         <div>
-            <img src="https://pokaimg.me/600x400/blob" alt="">
+            <div class="img-cnt">
+                <img src="https://pokaimg.me/600x400/blob" alt="">
+            </div>
             <p>
             <code>https://pokaimg.me/600x400/blob</code>
             </p>
         </div>
         <div>
-            <img src="https://pokaimg.me/600x400/malpa?id=9&text=For%20free?" alt="">
+            <div class="img-cnt">
+                <img src="https://pokaimg.me/600x400/malpa?id=9&text=For%20free?" alt="">
+            </div>
             <p>
                 <code>https://pokaimg.me/600x400/malpa?id=9&text=For%20free?</code>
             </p>
@@ -185,7 +197,7 @@
             </li>
             <li>
                 <code>https://pokaimg.me/200x400?<b>c=red</b></code>
-                <code>https://pokaimg.me/200x400?<b>c=ff0000</b></code>
+                <code>https://pokaimg.me/200x400?<b>color=ff0000</b></code>
                 <code>https://pokaimg.me/200x400?<b>c=f00</b></code>
                 <span>Text color. Color can be given as a color name, or in hexadecimal form - 3 or 6 characters (without #)</span>
             </li>
@@ -195,20 +207,23 @@
             </li>
             <li>
                 <code>https://pokaimg.me/200x400?<b>text=</b></code>
-                <code>https://pokaimg.me/200x400?<b>notext&bg=red</b></code>
+                <code>https://pokaimg.me/200x400?<b>notext</b>&bg=red</code>
+                <code>https://pokaimg.me/200x400?<b>noText</b>&bg=red</code>
                 <span>set text to empty (without dimension on image)</span>
             </li>
             <li>
                 <code>https://pokaimg.me/200x400?<b>gray</b>&text=lorem</code>
+                <code>https://pokaimg.me/200x400?<b>grayscale</b>&text=lorem</code>
                 <span>set grayscale mode</span>
             </li>
             <li>
                 <code>https://pokaimg.me/200x400/<b>blob</b></code>
-                <code>https://pokaimg.me/200x400/<b>luxury</b>?text=lorem&gray=1</code>
+                <code>https://pokaimg.me/200x400/<b>luxury</b>?text=lorem&gray</code>
                 <span>generate image from specific category</span>
             </li>
             <li>
                 <code>https://pokaimg.me/200x400?<b>lines</b></code>
+                <code>https://pokaimg.me/200x400?<b>cross</b></code>
                 <span>generate cross lines on photo</span>
             </li>
             <li>
@@ -220,7 +235,7 @@
         <p>You can mix all parameters (look below for examples).</p>
 
         <h3>Category list:</h3>
-        <p><code>https://pokaimg.me/200x400/<b>blurry</b>?text=test&gray=1&id=3</code></p>
+        <p><code>https://pokaimg.me/200x400/<b>blob</b>?text=test&gray=1&id=3</code></p>
 
         <ul class="category-list">
         </ul>
