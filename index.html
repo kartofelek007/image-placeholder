@@ -245,7 +245,13 @@
                 const res = await fetch("/categories");
                 if (res.ok) {
                     const json = await res.json();
-                    json.categories.forEach(el => {
+                    let categories = json.categories;
+
+                    categories.push({name: "random", count: 666});
+                    categories.push({name: "all", count: 666});
+
+                    categories.sort((a, b) => a.name.localeCompare(b.name));
+                    categories.forEach(el => {
                         const li = document.createElement("li");
                         li.innerText = el.name;
                         ul.append(li);
@@ -253,6 +259,7 @@
                 }
             })();
         </script>
+        <div>Categories <strong>all</strong> and <strong>random</strong> get random photo from all categories</div>
     </section>
 
     <section>

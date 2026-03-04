@@ -83,8 +83,19 @@ app.get("/:size{/:category}", async (req, res) => {
     const ctx = canvas.getContext("2d");
 
     if (category) {
-        if (fs.existsSync(`./images/${category}`)) {
-            const images = await fs.promises.readdir(`./images/${category}`);
+        let dirName = category;
+
+        if (category === 'random' || category === 'all') {
+            const directories = fs
+                .readdirSync(`./images`, { withFileTypes: true })
+                .filter(d => d.isDirectory())
+                .map(d => d.name);
+
+            dirName = directories[Math.floor(Math.random() * directories.length)];
+        }
+
+        if (fs.existsSync(`./images/${dirName}`)) {
+            const images = await fs.promises.readdir(`./images/${dirName}`);
 
             if (images.length) {
                 let index = Math.floor(Math.random() * images.length);
@@ -97,7 +108,7 @@ app.get("/:size{/:category}", async (req, res) => {
                     index = Math.floor(index % images.length);
                 }
 
-                const image = await loadImage(`./images/${category}/${images[index]}`);
+                const image = await loadImage(`./images/${dirName}/${images[index]}`);
 
                 //fill image to canvas
                 let scale = Math.max(canvas.width / image.width, canvas.height / image.height);
